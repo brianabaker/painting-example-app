@@ -24,11 +24,18 @@ class Filter extends React.Component {
     })
   }
 
+
+
   render() {
     return (
       <div>
+
+        <button className="positive ui button" onClick={this.props.displayFavs}>My Favorite Paintings</button>
+        <div className="ui divider">
+        </div>
         <form onInput={this.artistInput} onSubmit={this.handleArtist}>
           <label>
+          <strong>Sort</strong><br/><br/>
             By Artist:
             <input type="text" value={this.state.value} />
             <input type="submit" value="Go" />

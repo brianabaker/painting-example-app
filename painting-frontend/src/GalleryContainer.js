@@ -8,6 +8,7 @@ class GalleryContainer extends React.Component {
   state = {
     originalData: [],
     allPaintings: [],
+    myFavoritePaintings: [],
     selected: null
   };
 
@@ -93,6 +94,31 @@ class GalleryContainer extends React.Component {
     });
   };
 
+  addToMyFavoritePaintings = (value) => {
+    console.log('favs', value)
+    this.setState({
+      selected: null,
+      myFavoritePaintings: [...this.state.myFavoritePaintings, value]
+    })
+  }
+
+  renderFavorites = () => {
+    console.log('in the render favs')
+    this.setState({
+      selected: null,
+      allPaintings: this.state.myFavoritePaintings
+    })
+  }
+
+  removePainting = (value) => {
+    console.log(value)
+    console.log('in the remove painting')
+    let newArr = this.state.myFavoritePaintings.filter(painting => painting.id !== value.id )
+    this.setState({
+      myFavoritePaintings: newArr
+    })
+  }
+
   render() {
     return (
       <div>
@@ -103,12 +129,15 @@ class GalleryContainer extends React.Component {
             <Sort callback={this.toggleAlpha} ageSort={this.ageSort} />
           </div>
           <div className="item">
-            <Filter artistFilter={this.filterArtist} />
+            <Filter displayFavs={this.renderFavorites} artistFilter={this.filterArtist} />
           </div>
           </div>
 
           {this.state.selected ? (
             <PaintingDetail
+            favorites={this.addToMyFavoritePaintings}
+              inFavs={this.state.myFavoritePaintings}
+              removeFav={this.removePainting}
               data={this.state.selected}
               callback={this.handleNull}
             />
